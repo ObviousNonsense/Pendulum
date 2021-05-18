@@ -4,7 +4,7 @@ class Particle {
         this.acc = createVector(0, 0);
         this.vel = createVector(0, 0);
         this.mass = mass;
-        this.drag = 0.001;
+        this.drag = drag;
     }
 
     update() {
@@ -28,6 +28,6 @@ class Particle {
         stroke(200);
         strokeWeight(2);
         fill(127);
-        ellipse(this.pos.x, this.pos.y, 50, 50);
+        ellipse(this.pos.x, this.pos.y, 10, 10);
     }
 }

@@ -3,50 +3,62 @@ let angle;
 let angleV = 0;
 let angleA = 0;
 
-let bob;
+let bob1;
+let bob2;
 let len;
 let anchor;
 
 let gravity;
 
-let spring;
+let spring1;
+let spring2;
+
+let pendulum;
 
 function setup() {
     createCanvas(800, 800);
-    anchor = new Particle(width/2, 0);
-    bob = new Particle(width/2 + 100, 100);
-    spring = new Spring(0.0001, 200, anchor, bob);
+    anchor = new Particle(width / 2, 0, 1, 0);
+    bob1 = new Particle(width / 2 + 200, 300, 1, 0);
+    bob2 = new Particle(width / 2 - 50, 600, 1, 0);
+    spring1 = new Spring(0.01, 100, anchor, bob1);
+    spring2 = new Spring(0.05, 300, bob1, bob2);
+    gravity = createVector(0, 1);
+    // wind = createVector(0.2, 0);
+
     // angle = PI / 4;
     // len = 800;
+    pendulum = new Pendulum(width/2, 0, 300, PI/4);
 }
 
 function draw() {
     background(51);
+    pendulum.applyForce(gravity);
+    // pendulum.applyForce(wind);
+    pendulum.update();
+    pendulum.show();
 
 
-    spring.show()
-    spring.update();
-    bob.show();
-    bob.update();
-    anchor.show();
-    anchor.update();
+    // spring1.update();
+    // spring2.update();
 
-    if (mouseIsPressed) {
-        anchor.pos.set(mouseX, mouseY);
-        anchor.vel.set(0, 0);
-    }
+    // anchor.acc.set(0, 0);
+    // anchor.vel.set(0, 0);
+    // anchor.pos.set(width / 2, 0);
 
-    // let force = gravity * sin(angle);
-    // angleA = -force / len;
-    // angleV += angleA;
-    // angle += angleV;
+    // anchor.update();
 
-    // bob.x = len * sin(angle) + origin.x;
-    // bob.y = len * cos(angle) + origin.y;
+    // bob1.applyForce(gravity);
+    // bob1.update();
 
-    // stroke(255);
-    // strokeWeight(4);
-    // fill(127);
-    // line(origin.x, origin.y, bob.x, bob.y);
-    // circle(bob.x, bob.y, 64);
+    // bob2.applyForce(gravity);
+    // bob2.update();
+
+    // spring1.show()
+    // spring2.show()
+    // anchor.show();
+    // bob1.show();
+    // bob2.show();
+
+
+
 }
