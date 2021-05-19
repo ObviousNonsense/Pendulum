@@ -15,6 +15,7 @@ class Pendulum {
         this.updatePosition();
 
         this.angleHistory = [];
+        this.historyScale = 2;
     }
 
     update() {
@@ -25,7 +26,7 @@ class Pendulum {
         this.updatePosition();
 
         this.angleHistory.push((2 * this.len / PI) * this.angle);
-        if (this.angleHistory.length > height - this.len) {
+        if (this.angleHistory.length > (height - this.len) / this.historyScale) {
             this.angleHistory.shift();
         }
     }
@@ -62,7 +63,8 @@ class Pendulum {
 
             let yoffset = this.len;
             let xoffset = this.anchor.x;
-            line(xoffset + p1, yoffset + i - 1, xoffset + p2, yoffset + i);
+            line(xoffset + p1, yoffset + this.historyScale * (i - 1),
+                xoffset + p2, yoffset + this.historyScale * i);
         }
     }
 }
