@@ -1,49 +1,64 @@
 let gravity;
-let spring1;
-let pendulum1;
-let pendulum2;
+// let spring1;
+// let pendulum1;
+// let pendulum2;
 
-let plot1 = [];
+let pendulums = [];
+let springs = [];
+
 
 function setup() {
     createCanvas(800, 600);
-    pendulum1 = new Pendulum(width / 4, 0, 200, 0);
-    pendulum2 = new Pendulum(3 * width / 4, 0, 200, -PI / 3);
-    spring1 = new Spring(0.001, width/2, pendulum1, pendulum2);
+    // pendulum1 = new Pendulum(width / 4, 0, 200, 0);
+    // pendulum2 = new Pendulum(3 * width / 4, 0, 200, -PI / 3);
+    // spring1 = new Spring(0.001, width/2, pendulum1, pendulum2);
+
+    let num = 6;
+    let len = 100;
+    let k = 0.0005
+    for (let i = 0; i < num; i++) {
+        let p = new Pendulum(
+            map(i, 0, num, 0, width) + 0.5*width/num, 0, len, random(-PI/3, PI/3));
+        pendulums.push(p);
+
+        if (i > 0) {
+            let s = new Spring(
+                k, pendulums[i].anchor.x - pendulums[0].anchor.x,
+                pendulums[i], pendulums[i-1]
+            );
+            springs.push(s);
+        }
+    }
     gravity = createVector(0, 1);
 }
 
 function draw() {
     background(51);
-    pendulum1.applyForce(gravity);
-    pendulum2.applyForce(gravity);
 
-    pendulum1.update();
-    pendulum2.update();
-    spring1.update();
+    for (let p of pendulums) {
+        p.applyForce(gravity);
+        p.update();
+        p.show();
+        p.plotAngle();
+    }
 
-    plot1.push(180*pendulum1.angle);
+    for (let s of springs) {
+        s.update();
+        s.show();
+    }
 
-    pendulum1.show();
-    pendulum2.show();
-    spring1.show()
+    // pendulum1.applyForce(gravity);
+    // pendulum2.applyForce(gravity);
 
-    pendulum1.plotAngle();
-    pendulum2.plotAngle();
+    // pendulum1.update();
+    // pendulum2.update();
+    // spring1.update();
 
-    // stroke(200);
-    // strokeWeight(1);
-    // for (let i = 1; i < plot1.length; i++) {
-    //     let end = plot1.length;
-    //     let p1 = plot1[end-i];
-    //     let p2 = plot1[end-i-1];
+    // pendulum1.show();
+    // pendulum2.show();
+    // spring1.show()
 
-    //     let yoffset = pendulum1.len;
-    //     let xoffset = pendulum1.anchor.x;
-    //     line(xoffset+p1, yoffset+i-1, xoffset+p2, yoffset+i);
-    // }
+    // pendulum1.plotAngle();
+    // pendulum2.plotAngle();
 
-    // if (plot1.length > height - pendulum1.len) {
-    //     plot1.shift();
-    // }
 }

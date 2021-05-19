@@ -23,7 +23,7 @@ class Pendulum {
         this.angleAcc = 0;
         this.updatePosition();
 
-        this.angleHistory.push(180 * this.angle);
+        this.angleHistory.push((2 * this.len / PI) * this.angle);
         if (this.angleHistory.length > height - this.len) {
             this.angleHistory.shift();
         }
