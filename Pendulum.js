@@ -18,6 +18,7 @@ class Pendulum {
     }
 
     update() {
+        this.angleVel *= 1 - this.drag;
         this.angleVel += this.angleAcc;
         this.angle += this.angleVel;
         this.angleAcc = 0;

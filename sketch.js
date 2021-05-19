@@ -14,16 +14,22 @@ function setup() {
     // spring1 = new Spring(0.001, width/2, pendulum1, pendulum2);
 
     let num = 6;
-    let len = 100;
+    let len = 150;
     let k = 0.0005
     for (let i = 0; i < num; i++) {
         let p = new Pendulum(
-            map(i, 0, num, 0, width) + 0.5*width/num, 0, len, random(-PI/3, PI/3));
+            map(i, 0, num, 0, width) + 0.5*width/num,
+            0,
+            len,
+            random(-PI/3, PI/3),
+            1,
+            0
+        );
         pendulums.push(p);
 
         if (i > 0) {
             let s = new Spring(
-                k, pendulums[i].anchor.x - pendulums[0].anchor.x,
+                k, pendulums[i].anchor.x - pendulums[i-1].anchor.x,
                 pendulums[i], pendulums[i-1]
             );
             springs.push(s);
@@ -46,19 +52,4 @@ function draw() {
         s.update();
         s.show();
     }
-
-    // pendulum1.applyForce(gravity);
-    // pendulum2.applyForce(gravity);
-
-    // pendulum1.update();
-    // pendulum2.update();
-    // spring1.update();
-
-    // pendulum1.show();
-    // pendulum2.show();
-    // spring1.show()
-
-    // pendulum1.plotAngle();
-    // pendulum2.plotAngle();
-
 }
