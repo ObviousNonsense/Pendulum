@@ -1,8 +1,8 @@
 class Spring {
-    /**
-    * @param {Particle} a
-    * @param {Particle} b
-    */
+    // /**
+    // * @param {Particle} a
+    // * @param {Particle} b
+    // */
     constructor(k, restLength, a, b) {
         this.k = k;
         this.restLength = restLength;
