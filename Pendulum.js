@@ -14,8 +14,11 @@ class Pendulum {
         this.pos = createVector();
         this.updatePosition();
 
-        this.angleHistory = [];
-        this.historyScale = 2;
+        this.historyScale = 1;
+        this.historyIndex = 0;
+        this.angleHistory = new Array((height - this.len) / this.historyScale);
+        this.angleHistory[0] = this.angle;
+        this.lastAvgDelta = 0;
     }
 
     update() {
@@ -25,10 +28,11 @@ class Pendulum {
         this.angleAcc = 0;
         this.updatePosition();
 
-        this.angleHistory.push((2 * this.len / PI) * this.angle);
-        if (this.angleHistory.length > (height - this.len) / this.historyScale) {
-            this.angleHistory.shift();
+        this.historyIndex++;
+        if (this.historyIndex >= this.angleHistory.length) {
+            this.historyIndex = 0;
         }
+        this.angleHistory[this.historyIndex] = (2 * this.len / PI) * this.angle;
     }
 
     updatePosition() {
@@ -54,17 +58,30 @@ class Pendulum {
     }
 
     plotAngle() {
-        stroke(200);
+        colorMode(HSB, 100);
+        stroke(map(this.lastAvgDelta, 0, 1, 50, 100), 50, 75);
+        // stroke(75, 50, 100);
         strokeWeight(1);
-        for (let i = 1; i < this.angleHistory.length; i++) {
-            let end = this.angleHistory.length;
-            let p1 = this.angleHistory[end - i];
-            let p2 = this.angleHistory[end - i - 1];
+
+        let n = this.historyIndex;
+        let hist = this.angleHistory;
+        let arr = hist.slice(n, hist.length).concat(hist.slice(0, n));
+        let sumDelta = 0;
+
+        for (let i = 0; i < arr.length-1; i++) {
+            let p1 = arr[arr.length - i];
+            let p2 = arr[arr.length - i - 1];
+            sumDelta += Math.abs(p2 - p1);
+
+            // console.log(p1 - p2);
 
             let yoffset = this.len;
             let xoffset = this.anchor.x;
             line(xoffset + p1, yoffset + this.historyScale * (i - 1),
                 xoffset + p2, yoffset + this.historyScale * i);
         }
+
+        this.lastAvgDelta = sumDelta / this.angleHistory.length;
+        print(sumDelta);
     }
 }

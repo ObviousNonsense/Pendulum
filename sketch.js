@@ -18,7 +18,7 @@ function setup() {
     let k = 0.001
     for (let i = 0; i < num; i++) {
         let p = new Pendulum(
-            map(i, 0, num, 0, width) + 0.5*width/num,
+            map(i, 0, num, 0, width) + 0.5 * width / num,
             0,
             len,
             // random(-PI/3, PI/3),
@@ -30,8 +30,8 @@ function setup() {
 
         if (i > 0) {
             let s = new Spring(
-                k, pendulums[i].anchor.x - pendulums[i-1].anchor.x,
-                pendulums[i], pendulums[i-1]
+                k, pendulums[i].anchor.x - pendulums[i - 1].anchor.x,
+                pendulums[i], pendulums[i - 1]
             );
             springs.push(s);
         }
@@ -42,7 +42,10 @@ function setup() {
 }
 
 function draw() {
+    colorMode(RGB);
     background(51);
+    let p = pendulums[0];
+    // console.log(abs(p.angleVel * p.angleVel * p.len));
 
     if (mouseIsPressed) {
         let p = pendulums[0];
